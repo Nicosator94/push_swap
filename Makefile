@@ -1,9 +1,10 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -MMD -g3
+CFLAGS = -Wall -Wextra -Werror -MMD
 
 SRC = push_swap.c \
 		parsing_int.c \
-		long_atoi.c
+		long_atoi.c \
+		init_list.c
 
 OBJ = $(SRC:.c=.o)
 
