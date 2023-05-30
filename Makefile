@@ -1,16 +1,18 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -MMD
+CFLAGS = -Wall -Wextra -Werror -MMD -g3
 
-SRC = push_swap.c
+SRC = push_swap.c \
+		parsing_int.c \
+		long_atoi.c
 
 OBJ = $(SRC:.c=.o)
 
 DEP = $(SRC:.c=.d)
 
-NAME = a.out
+NAME = push_swap
 
 all : $(NAME)
-	$(CC) $(CFLAGS) $(OBJ) -L. -lft
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) -L. -lft
 
 $(NAME) : $(OBJ) 
 	make -C libft

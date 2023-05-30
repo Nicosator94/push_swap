@@ -13,4 +13,9 @@
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
+# include "libft/libft.h"
+
+void	parsing_int(int argc, char *argv[]);
+long	long_atoi(const char *nptr);
+
 #endif

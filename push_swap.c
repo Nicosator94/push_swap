@@ -10,11 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
 #include "push_swap.h"
 
-int	main()
+int	main(int argc, char *argv[])
 {
-	ft_printf("%d\n", BUFFER_SIZE);
+	parsing_int(argc, argv);
 	return (0);
 }
