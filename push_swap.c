@@ -15,6 +15,6 @@
 
 int	main()
 {
-	ft_printf("%d\n", 5);
+	ft_printf("%d\n", BUFFER_SIZE);
 	return (0);
 }

@@ -1,23 +1,27 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -MMD
 
 SRC = push_swap.c
 
 OBJ = $(SRC:.c=.o)
+
+DEP = $(SRC:.c=.d)
 
 NAME = a.out
 
 all : $(NAME)
 	$(CC) $(CFLAGS) $(OBJ) -L. -lft
 
-$(NAME) : $(OBJ)
+$(NAME) : $(OBJ) 
 	make -C libft
 	cp libft/libft.a .
-	ar rcs $(NAME) $(OBJ) 
+
+%.o : %.c push_swap.h
+	$(CC) $(CFLAGS) -o $@ -c $<
 
 clean :
 	make fclean -C libft
-	rm -f $(OBJ)
+	rm -f $(OBJ) $(DEP)
 	rm -f libft.a
 
 fclean : clean
