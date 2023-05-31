@@ -17,6 +17,8 @@ void	push_a(t_list **a, t_list **b)
 	t_list	*new;
 	t_list	*temp;
 
+	if (ft_lstsize(*b) == 0)
+		return ;
 	new = ft_lstnew((*b)->content);
 	ft_lstadd_front(a, new);
 	temp = *b;
@@ -30,6 +32,8 @@ void	push_b(t_list **a, t_list **b)
 	t_list	*new;
 	t_list	*temp;
 
+	if (ft_lstsize(*a) == 0)
+		return ;
 	new = ft_lstnew((*a)->content);
 	ft_lstadd_front(b, new);
 	temp = *a;

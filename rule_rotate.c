@@ -17,6 +17,8 @@ void	rotate_a(t_list **a)
 	t_list	*new;
 	t_list	*temp;
 
+	if (ft_lstsize(*a) < 2)
+		return ;
 	new = ft_lstnew((*a)->content);
 	temp = *a;
 	*a = (*a)->next;
@@ -30,6 +32,8 @@ void	rotate_b(t_list **b)
 	t_list	*new;
 	t_list	*temp;
 
+	if (ft_lstsize(*b) < 2)
+		return ;
 	new = ft_lstnew((*b)->content);
 	temp = *b;
 	*b = (*b)->next;
@@ -43,6 +47,8 @@ void	rotate_both(t_list **a, t_list **b)
 	t_list	*new;
 	t_list	*temp;
 
+	if (ft_lstsize(*a) < 2 || ft_lstsize(*b) < 2)
+		return ;
 	new = ft_lstnew((*a)->content);
 	temp = *a;
 	*a = (*a)->next;

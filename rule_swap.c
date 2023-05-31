@@ -16,6 +16,8 @@ void	swap_a(t_list **a)
 {
 	int	temp;
 
+	if (ft_lstsize(*a) < 2)
+		return ;
 	temp = (*a)->next->content;
 	(*a)->next->content = (*a)->content;
 	(*a)->content = temp;
@@ -26,6 +28,8 @@ void	swap_b(t_list **b)
 {
 	int	temp;
 
+	if (ft_lstsize(*b) < 2)
+		return ;
 	temp = (*b)->next->content;
 	(*b)->next->content = (*b)->content;
 	(*b)->content = temp;
@@ -36,6 +40,8 @@ void	swap_both(t_list **a, t_list **b)
 {
 	int	temp;
 
+	if (ft_lstsize(*a) < 2 || ft_lstsize(*b) < 2)
+		return ;
 	temp = (*a)->next->content;
 	(*a)->next->content = (*a)->content;
 	(*a)->content = temp;
