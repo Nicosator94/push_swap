@@ -5,8 +5,10 @@ SRC = push_swap.c \
 		parsing_int.c \
 		long_atoi.c \
 		init_list.c \
-		instruction.c \
-		rotate_instru.c
+		rule_push.c \
+		rule_reverse_rotate.c \
+		rule_rotate.c \
+		rule_swap.c
 
 OBJ = $(SRC:.c=.o)
 
