@@ -12,35 +12,35 @@
 
 #include "push_swap.h"
 
-void	swap_a(t_list *a)
+void	swap_a(t_list **a)
 {
 	int	temp;
 
-	temp = a->next->content;
-	a->next->content = a->content;
-	a->content = temp;
+	temp = (*a)->next->content;
+	(*a)->next->content = (*a)->content;
+	(*a)->content = temp;
 	ft_putstr_fd("sa\n", 1);
 }
 
-void	swap_b(t_list *b)
+void	swap_b(t_list **b)
 {
 	int	temp;
 
-	temp = b->next->content;
-	b->next->content = b->content;
-	b->content = temp;
+	temp = (*b)->next->content;
+	(*b)->next->content = (*b)->content;
+	(*b)->content = temp;
 	ft_putstr_fd("sb\n", 1);
 }
 
-void	swap_both(t_list *a, t_list *b)
+void	swap_both(t_list **a, t_list **b)
 {
 	int	temp;
 
-	temp = a->next->content;
-	a->next->content = a->content;
-	a->content = temp;
-	temp = b->next->content;
-	b->next->content = b->content;
-	b->content = temp;
+	temp = (*a)->next->content;
+	(*a)->next->content = (*a)->content;
+	(*a)->content = temp;
+	temp = (*b)->next->content;
+	(*b)->next->content = (*b)->content;
+	(*b)->content = temp;
 	ft_putstr_fd("ss\n", 1);
 }

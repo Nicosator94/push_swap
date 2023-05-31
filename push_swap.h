@@ -21,9 +21,9 @@ t_list	*init_list(int argc, char *argv[]);
 
 //Rules
 
-void	swap_a(t_list *a);
-void	swap_b(t_list *b);
-void	swap_both(t_list *a, t_list *b);
+void	swap_a(t_list **a);
+void	swap_b(t_list **b);
+void	swap_both(t_list **a, t_list **b);
 void	push_a(t_list **a, t_list **b);
 void	push_b(t_list **a, t_list **b);
 void	rotate_a(t_list **a);

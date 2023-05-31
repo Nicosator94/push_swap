@@ -30,13 +30,13 @@ int	check_ascending(t_list *a)
 	return (0);
 }
 
-void	tri(t_list *a, t_list *b)
+void	tri(t_list **a, t_list **b)
 {
-	while (check_ascending(a) != 0)
+	while (check_ascending(*a) != 0)
 	{
-	//	first_part(a, b);ghjk
+	//	first_part(a, b);
 	}
-	while (b != NULL)
+	while (*b != NULL)
 	{
 	//	second_part(a, b);
 	}
@@ -52,20 +52,7 @@ int	main(int argc, char *argv[])
 	parsing_int(argc, argv);
 	a = init_list(argc, argv);
 	b = NULL;
-//	tri(a, b);
-
-	push_b(&a, &b);
-	push_b(&a, &b);
-	push_b(&a, &b);
-	push_b(&a, &b);
-	rev_rotate_both(&a, &b);
-	rotate_a(&a);
-	rotate_both(&a, &b);
-	push_a(&a, &b);
-	push_a(&a, &b);
-	push_a(&a, &b);
-	push_a(&a, &b);
-	
+	tri(&a, &b);
 	temp = a;
 	temp2 = b;
 	while (a != NULL)
