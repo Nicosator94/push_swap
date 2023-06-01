@@ -12,6 +12,28 @@
 
 #include "push_swap.h"
 
+int	average(t_list **a)
+{
+	t_list	*temp;
+	int		min;
+	int		max;
+	int		nb;
+
+	temp = *a;
+	min = temp->content;
+	max = temp->content;
+	while (temp != NULL)
+	{
+		if (min > temp->content)
+			min = temp->content;
+		if (max < temp->content)
+			max = temp->content;
+		temp = temp->next;
+	}
+	nb = (min + max) / 2;
+	return (nb);
+}
+
 int	check_ascending(t_list *a)
 {
 	int	len;
@@ -33,73 +55,77 @@ int	check_ascending(t_list *a)
 void	first_part(t_list **a, t_list **b)
 {
 	unsigned int	total;
+	int				nb;
 
+	nb = average(a);
 	total = ft_lstsize(*a);
 	while (total-- > 0)
 	{
-		if ((*a)->content < 0)
-		{
-			push_b(a, b);
-			if ((*b)->content <= -1073741824)
-				rotate_b(b);
-		}
-		else
-			rotate_a(a);
-	}
-	total = ft_lstsize(*a);
-	while (total-- > 0)
-	{
-		if ((*a)->content < 1073741824)
+		if ((*a)->content <= nb)
 			push_b(a, b);
 		else
 			rotate_a(a);
 	}
-	while (*a != NULL)
-		push_b(a, b);
 }
 
-void	second_part(t_list **a, t_list **b, int nb)
+void	second_part(t_list **b)
 {
-	int	i;
+	unsigned int	total;
+	int				nb;
 
-	i = 0;
-	while (ft_lstsize(*b) > 0 && (*b)->content >= nb)
+	nb = average(b);
+	total = ft_lstsize(*b);
+	while (total-- > 0)
 	{
-		push_a(a, b);
-		while (ft_lstsize(*a) > 1 && (*a)->content > (*a)->next->content)
-		{
-			swap_a(a);
-			push_b(a, b);
-			i ++;
-		}
-		while (i > 0)
-		{
-			push_a(a, b);
-			i --;
-		}
+		if ((*b)->content <= nb)
+			rotate_b(b);
+		else
+			swap_b(b);
 	}
+}
+
+void	third_part(t_list **a, t_list **b)
+{
+	unsigned int	total;
+	int				nb;
+
+	nb = average(a);
+	ft_printf("%d\n", nb);
+	total = ft_lstsize(*a);
+	while (total-- > 0)
+	{
+		if ((*a)->content <= nb)
+			push_b(a, b);
+		else
+			rotate_a(a);
+	}
+}
+
+void	four_part(t_list **a, t_list **b)
+{
+	while (*a != NULL)
+		push_b(a, b);
 }
 
 int	sorting(t_list **a, t_list **b)
 {
 	if (check_ascending(*a) == 0 && *b == NULL)
 	{
-		afficher(a, b);
+	//	afficher(a, b);
 		ft_lstclear(a);
 		ft_lstclear(b);
 		exit(EXIT_SUCCESS);
 	}
 	first_part(a, b);
-	second_part(a, b, 1073741824);
-	second_part(a, b, 0);
-	second_part(a, b, -1073741824);
-	second_part(a, b, -2147483648);
-	if (check_ascending(*a) == 0 && *b == NULL)
-	{
+	second_part(b);
+	third_part(a, b);
+	four_part(a, b);
+//	if (check_ascending(*a) == 0 && *b == NULL)
+//	{
 		afficher(a, b);
 		ft_lstclear(a);
 		ft_lstclear(b);
 		exit(EXIT_SUCCESS);
-	}
+//	}
 	return (-1);
 }
