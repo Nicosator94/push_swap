@@ -45,6 +45,6 @@ int	main(int argc, char *argv[])
 		ft_lstclear(&a);
 		exit(EXIT_SUCCESS);
 	}
-	tri(&a, &b);
+	sorting(&a, &b);
 	return (0);
 }
