@@ -18,6 +18,8 @@
 void	parsing_int(int argc, char *argv[]);
 long	long_atoi(const char *nptr);
 t_list	*init_list(int argc, char *argv[]);
+int	check_ascending(t_list *a);
+int	sorting(t_list **a, t_list **b);
 
 //Rules
 
@@ -32,5 +34,10 @@ void	rotate_both(t_list **a, t_list **b);
 void	rev_rotate_a(t_list **a);
 void	rev_rotate_b(t_list **b);
 void	rev_rotate_both(t_list **a, t_list **b);
+
+
+//delete
+
+void	afficher(t_list **a, t_list **b);
 
 #endif

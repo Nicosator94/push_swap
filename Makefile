@@ -8,7 +8,8 @@ SRC = push_swap.c \
 		rule_push.c \
 		rule_reverse_rotate.c \
 		rule_rotate.c \
-		rule_swap.c
+		rule_swap.c \
+		sorting.c
 
 OBJ = $(SRC:.c=.o)
 

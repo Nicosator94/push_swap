@@ -32,54 +32,6 @@ void	afficher(t_list **a, t_list **b)
 	}
 }
 
-int	check_ascending(t_list *a)
-{
-	int	len;
-
-	len = 1;
-	while (a != NULL)
-	{
-		if (a->next != NULL)
-		{
-			if (a->content > a->next->content)
-				return (len);
-		}
-		len ++;
-		a = a->next;
-	}
-	return (0);
-}
-
-int	tri(t_list **a, t_list **b)
-{
-	if (check_ascending(*a) == 0 && *b == NULL)
-		return (0);
-	while (*a != NULL && ft_lstsize(*a) > 1)
-	{
-		if ((*a)->content < (*a)->next->content)
-			push_b(a, b);
-		else if ((*a)->content > (*a)->next->content)
-		{
-			push_b(a, b);
-			push_b(a, b);
-			if (ft_lstsize(*a) > 1 && (*a)->content > (*a)->next->content)
-				swap_both(a, b);
-			else
-				swap_b(b);
-		}
-	}
-	while (*b != NULL)
-		push_a(a, b);
-	if (tri(a, b) == 0)
-	{
-		afficher(a, b);
-		ft_lstclear(a);
-		ft_lstclear(b);
-		exit(EXIT_SUCCESS);
-	}
-	return (-1);
-}
-
 int	main(int argc, char *argv[])
 {
 	t_list	*a;
