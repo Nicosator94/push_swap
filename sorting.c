@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sorting.c                                          :+:      :+:    :+:   */
+/*   split.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: niromano <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/01 07:49:58 by niromano          #+#    #+#             */
-/*   Updated: 2023/06/01 07:49:59 by niromano         ###   ########.fr       */
+/*   Created: 2023/06/02 11:48:11 by niromano          #+#    #+#             */
+/*   Updated: 2023/06/02 11:48:12 by niromano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	average(t_list **a)
+int	average(t_list **a, int len)
 {
 	t_list	*temp;
 	int		min;
@@ -22,13 +22,14 @@ int	average(t_list **a)
 	temp = *a;
 	min = temp->content;
 	max = temp->content;
-	while (temp != NULL)
+	while (len > 0)
 	{
 		if (min > temp->content)
 			min = temp->content;
 		if (max < temp->content)
 			max = temp->content;
 		temp = temp->next;
+		len --;
 	}
 	nb = (min + max) / 2;
 	return (nb);
@@ -52,137 +53,124 @@ int	check_ascending(t_list *a)
 	return (0);
 }
 
-int	first_part(t_list **a, t_list **b)
+void	first_part(t_list **a, t_list **b, int *len)
 {
 	unsigned int	total;
 	int				nb;
-	int				len;
 
-	nb = average(a);
 	total = ft_lstsize(*a);
-	len = 0;
+	nb = average(a, total);
+	len[0] = 0;
+	len[1] = 0;
 	while (total-- > 0)
 	{
 		if ((*a)->content <= nb)
 		{
 			push_b(a, b);
-			len ++;
+			len[1] ++;
 		}
 		else
+		{	
 			rotate_a(a);
+			len[0] ++;
+		}
 	}
-	return (len);
 }
 
-int	second_part(t_list **a, t_list **b, int temp)
+void	second_part(t_list **a, t_list **b, int len, int *new_len)
 {
-	unsigned int	total;
-	int				nb;
-	int				len;
-	int				time;
+	int	nb;
 
-	nb = average(b);
-	total = ft_lstsize(*b);
-	len = 0;
-	time = 0;
-	while (total-- > 0)
+	new_len[0] = 0;
+	new_len[1] = 0;
+	nb = average(b, len);
+	while (len > 0)
 	{
-		if ((*b)->content <= nb)
+		if ((*b)->content < nb)
 		{
 			rotate_b(b);
-			len ++;
+			new_len[1] ++;
 		}
 		else
-		{
-			push_a(a ,b);
-			time ++;
-		}
-	}
-	if (temp == 0)
-		temp = second_part(a, b, 1);
-	while (time > 0)
-	{
-		push_b(a, b);
-		time --;
-	}
-	return (len);
-}
-
-int	third_part(t_list **a, t_list **b)
-{
-	unsigned int	total;
-	int				nb;
-	int				len;
-
-	nb = average(a);
-	total = ft_lstsize(*a);
-	len = 0;
-	while (total-- > 0)
-	{
-		if ((*a)->content <= nb)
-		{
-			push_b(a, b);
-			len ++;
-		}
-		else
-			rotate_a(a);
-	}
-	return (len);
-}
-
-void	fourth_part(t_list **a, t_list **b)
-{
-	while (*a != NULL)
-		push_b(a, b);
-}
-
-void	fifth_part(t_list **a, t_list **b, int nb)
-{
-	int	time;
-
-	time = 0;
-	while (nb > 0)
-	{
-		push_a(a, b);
-		while (ft_lstsize(*a) > 1 && (*a)->content > (*a)->next->content)
-		{
-			swap_a(a);
-			push_b(a, b);
-			time ++;
-		}
-		while (time > 0)
 		{
 			push_a(a, b);
-			time --;
+			new_len[0] ++;
 		}
-		nb --;
+		len --;
+	}
+}
+
+void	fill(t_list **a, t_list **b, int len)
+{
+	while (len > 0)
+	{
+		push_b(a, b);
+		len --;
+	}
+}
+
+void	third_part(t_list **a, t_list **b, int len, int *new_len)
+{
+	int	nb;
+
+	new_len[0] = 0;
+	new_len[1] = 0;
+	nb = average(a, len);
+	while (len > 0)
+	{
+		if ((*a)->content > nb)
+		{
+			push_b(a, b);
+			rotate_b(b);
+			new_len[1] ++;
+		}
+		else
+		{
+			push_b(a, b);
+			new_len[0] ++;
+		}
+		len --;
+	}
+}
+
+void	rot_switch(t_list **b, int len)
+{
+	while (len > 0)
+	{
+		rev_rotate_b(b);
+		len --;
 	}
 }
 
 int	sorting(t_list **a, t_list **b)
 {
-	int	tab[3];
+	int	len[8][2];
 
 	if (check_ascending(*a) == 0 && *b == NULL)
 	{
-	//	afficher(a, b);
 		ft_lstclear(a);
 		ft_lstclear(b);
 		exit(EXIT_SUCCESS);
 	}
-	tab[0] = first_part(a, b);
-	tab[1] = second_part(a, b, 0);
-	tab[2] = third_part(a, b);
-	fourth_part(a, b);
-	fifth_part(a, b, tab[2]);
-	fifth_part(a, b, tab[0]);
-	fifth_part(a, b, tab[1]);
-	if (check_ascending(*a) == 0 && *b == NULL)
-	{
-		//afficher(a, b);
+	first_part(a, b, len[0]);
+	second_part(a, b, len[0][1], len[1]);
+	second_part(a, b, len[1][1], len[2]);
+	fill(a, b, len[2][0]);
+	third_part(a, b, len[1][0], len[3]);
+	rot_switch(b, len[3][1]);
+
+	first_part(a, b, len[0]);
+	second_part(a, b, len[4][1], len[5]);
+	fill(a, b, len[5][0]);
+	third_part(a, b, len[4][0], len[6]);
+	rot_switch(b, len[6][1]);
+	third_part(a, b, len[4][0], len[7]);
+	rot_switch(b, len[7][1]);
+//	if (check_ascending(*a) == 0 && *b == NULL)
+//	{
 		ft_lstclear(a);
 		ft_lstclear(b);
 		exit(EXIT_SUCCESS);
-	}
+//	}
 	return (-1);
 }

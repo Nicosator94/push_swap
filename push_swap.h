@@ -35,9 +35,4 @@ void	rev_rotate_a(t_list **a);
 void	rev_rotate_b(t_list **b);
 void	rev_rotate_both(t_list **a, t_list **b);
 
-
-//delete
-
-void	afficher(t_list **a, t_list **b);
-
 #endif
