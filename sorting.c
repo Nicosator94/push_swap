@@ -52,63 +52,117 @@ int	check_ascending(t_list *a)
 	return (0);
 }
 
-void	first_part(t_list **a, t_list **b)
+int	first_part(t_list **a, t_list **b)
 {
 	unsigned int	total;
 	int				nb;
+	int				len;
 
 	nb = average(a);
 	total = ft_lstsize(*a);
+	len = 0;
 	while (total-- > 0)
 	{
 		if ((*a)->content <= nb)
+		{
 			push_b(a, b);
+			len ++;
+		}
 		else
 			rotate_a(a);
 	}
+	return (len);
 }
 
-void	second_part(t_list **b)
+int	second_part(t_list **a, t_list **b, int temp)
 {
 	unsigned int	total;
 	int				nb;
+	int				len;
+	int				time;
 
 	nb = average(b);
 	total = ft_lstsize(*b);
+	len = 0;
+	time = 0;
 	while (total-- > 0)
 	{
 		if ((*b)->content <= nb)
+		{
 			rotate_b(b);
+			len ++;
+		}
 		else
-			swap_b(b);
+		{
+			push_a(a ,b);
+			time ++;
+		}
 	}
+	if (temp == 0)
+		temp = second_part(a, b, 1);
+	while (time > 0)
+	{
+		push_b(a, b);
+		time --;
+	}
+	return (len);
 }
 
-void	third_part(t_list **a, t_list **b)
+int	third_part(t_list **a, t_list **b)
 {
 	unsigned int	total;
 	int				nb;
+	int				len;
 
 	nb = average(a);
-	ft_printf("%d\n", nb);
 	total = ft_lstsize(*a);
+	len = 0;
 	while (total-- > 0)
 	{
 		if ((*a)->content <= nb)
+		{
 			push_b(a, b);
+			len ++;
+		}
 		else
 			rotate_a(a);
 	}
+	return (len);
 }
 
-void	four_part(t_list **a, t_list **b)
+void	fourth_part(t_list **a, t_list **b)
 {
 	while (*a != NULL)
 		push_b(a, b);
 }
 
+void	fifth_part(t_list **a, t_list **b, int nb)
+{
+	int	time;
+
+	time = 0;
+	while (nb > 0)
+	{
+		push_a(a, b);
+		while (ft_lstsize(*a) > 1 && (*a)->content > (*a)->next->content)
+		{
+			swap_a(a);
+			push_b(a, b);
+			time ++;
+		}
+		while (time > 0)
+		{
+			push_a(a, b);
+			time --;
+		}
+		nb --;
+	}
+}
+
 int	sorting(t_list **a, t_list **b)
 {
+	int	tab[3];
+
 	if (check_ascending(*a) == 0 && *b == NULL)
 	{
 	//	afficher(a, b);
@@ -116,16 +170,19 @@ int	sorting(t_list **a, t_list **b)
 		ft_lstclear(b);
 		exit(EXIT_SUCCESS);
 	}
-	first_part(a, b);
-	second_part(b);
-	third_part(a, b);
-	four_part(a, b);
-//	if (check_ascending(*a) == 0 && *b == NULL)
-//	{
-		afficher(a, b);
+	tab[0] = first_part(a, b);
+	tab[1] = second_part(a, b, 0);
+	tab[2] = third_part(a, b);
+	fourth_part(a, b);
+	fifth_part(a, b, tab[2]);
+	fifth_part(a, b, tab[0]);
+	fifth_part(a, b, tab[1]);
+	if (check_ascending(*a) == 0 && *b == NULL)
+	{
+		//afficher(a, b);
 		ft_lstclear(a);
 		ft_lstclear(b);
 		exit(EXIT_SUCCESS);
-//	}
+	}
 	return (-1);
 }
