@@ -117,6 +117,8 @@ void	second_part(t_list **a, t_list **b, int len, int *new_len)
 		else
 		{
 			push_a(a, b);
+			if (ft_lstsize(*a) > 1 && (*a)->content > (*a)->next->content)
+				swap_a(a);
 			new_len[0] ++;
 		}
 		len --;
@@ -150,6 +152,8 @@ void	third_part(t_list **a, t_list **b, int len, int *new_len)
 		else
 		{
 			push_b(a, b);
+			if (ft_lstsize(*b) > 1 && (*b)->content < (*b)->next->content)
+				swap_b(b);
 			new_len[0] ++;
 		}
 		len --;
@@ -194,6 +198,39 @@ void	fourth_part(t_list **a, t_list **b, int len, int *new_len)
 	}
 }
 
+void	final_part(t_list **a, t_list **b)
+{
+	int	len;
+
+	push_a(a, b);
+	while ((*b) != NULL)
+	{
+		len = 0;
+		push_a(a, b);
+		while (ft_lstsize(*a) > 1 && (*a)->content > (*a)->next->content)
+		{
+			swap_a(a);
+			if (ft_lstsize(*a) > 2 && (*a)->next->content > (*a)->next->next->content)
+				push_b(a, b);
+			len ++;
+		}
+		while (len > 1)
+		{
+			push_a(a, b);
+			len --;
+		}
+	}
+}
+
+void	tri(t_list **a, t_list **b, int len)
+{
+	while (len > 0)
+	{
+		push_a(a, b);
+		len --;
+	}
+}
+
 int	sorting(t_list **a, t_list **b)
 {
 	int	len[8][2];
@@ -209,13 +246,14 @@ int	sorting(t_list **a, t_list **b)
 	second_part(a, b, len[1][1], len[2]);
 	fill(a, b, len[2][0]);
 	third_part(a, b, len[1][0], len[3]);
-	rot_switch(b, len[3][1]);
+//	rot_switch(b, len[3][1]);
 	fourth_part(a, b, len[0][0], len[4]);
-	rot_switch(b, len[4][1]);
+//	rot_switch(b, len[4][1]);
 	third_part(a, b, len[4][0], len[5]);
-	rot_switch(b, len[5][1]);
+//	rot_switch(b, len[5][1]);
 
 	final_part(a, b);
+
 //	if (check_ascending(*a) == 0 && *b == NULL)
 //	{
 		ft_lstclear(a);
