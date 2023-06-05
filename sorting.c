@@ -35,6 +35,29 @@ int	average(t_list **a, int len)
 	return (nb);
 }
 
+int	little_average(t_list **a, int len, int max_nb)
+{
+	t_list	*temp;
+	int		min;
+	int		max;
+	int		nb;
+
+	temp = *a;
+	min = temp->content;
+	max = temp->content;
+	while (len > 0)
+	{
+		if (min > temp->content && temp->content < max_nb)
+			min = temp->content;
+		if (max < temp->content && temp->content < max_nb)
+			max = temp->content;
+		temp = temp->next;
+		len --;
+	}
+	nb = (min + max) / 2;
+	return (nb);
+}
+
 int	check_ascending(t_list *a)
 {
 	int	len;
@@ -142,6 +165,35 @@ void	rot_switch(t_list **b, int len)
 	}
 }
 
+void	fourth_part(t_list **a, t_list **b, int len, int *new_len)
+{
+	int	nb;
+	int	little_nb;
+
+	new_len[0] = 0;
+	new_len[1] = 0;
+	nb = average(a, len);
+	little_nb = little_average(a, len, nb);
+	while (len > 0)
+	{
+		if ((*a)->content < nb)
+		{
+			push_b(a, b);
+			if ((*b)->content > little_nb)
+			{
+				rotate_b(b);
+				new_len[1] ++;
+			}
+		}
+		else
+		{
+			rotate_a(a);
+			new_len[0] ++;
+		}
+		len --;
+	}
+}
+
 int	sorting(t_list **a, t_list **b)
 {
 	int	len[8][2];
@@ -158,14 +210,12 @@ int	sorting(t_list **a, t_list **b)
 	fill(a, b, len[2][0]);
 	third_part(a, b, len[1][0], len[3]);
 	rot_switch(b, len[3][1]);
+	fourth_part(a, b, len[0][0], len[4]);
+	rot_switch(b, len[4][1]);
+	third_part(a, b, len[4][0], len[5]);
+	rot_switch(b, len[5][1]);
 
-	first_part(a, b, len[0]);
-	second_part(a, b, len[4][1], len[5]);
-	fill(a, b, len[5][0]);
-	third_part(a, b, len[4][0], len[6]);
-	rot_switch(b, len[6][1]);
-	third_part(a, b, len[4][0], len[7]);
-	rot_switch(b, len[7][1]);
+	final_part(a, b);
 //	if (check_ascending(*a) == 0 && *b == NULL)
 //	{
 		ft_lstclear(a);
