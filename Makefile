@@ -9,7 +9,11 @@ SRC = push_swap.c \
 		rule_reverse_rotate.c \
 		rule_rotate.c \
 		rule_swap.c \
-		sorting.c
+		sorting.c \
+		sorting_utils.c \
+		part_1.c \
+		part_2.c \
+		wheel.c
 
 OBJ = $(SRC:.c=.o)
 

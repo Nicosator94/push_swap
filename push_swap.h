@@ -18,14 +18,42 @@
 void	parsing_int(int argc, char *argv[]);
 long	long_atoi(const char *nptr);
 t_list	*init_list(int argc, char *argv[]);
-int	check_ascending(t_list *a);
-int	sorting(t_list **a, t_list **b);
+int		sorting(t_list **a, t_list **b);
 
 typedef struct s_info
 {
 	int	len[8];
 	int	temp;
 }	t_info;
+
+typedef struct s_utils
+{
+	int	min;
+	int	max;
+	int	trigger;
+}	t_utils;
+
+//Parts
+
+void	first_part(t_list **a, t_list **b);
+void	second_part(t_list **a, t_list **b, t_info *part);
+void	third_part(t_list **a, t_list **b, t_info *part);
+void	fourth_part(t_list **a, t_list **b, t_info *part);
+void	fifth_part(t_list ** a, t_list **b, t_info *part);
+void	sixth_part(t_list **a, t_list **b, t_info *part);
+
+//Wheel
+
+void	search_value(t_list **b, int *next_value);
+void	wheel(t_list **a, t_list **b);
+
+// Utils
+
+int		check_ascending(t_list *a);
+void	init_part(t_info *part);
+void	fill(t_list **a, t_list **b, int len);
+int		average(t_list **a, int len);
+int		under_average(t_list **a, int len, int nb);
 
 //Rules
 
