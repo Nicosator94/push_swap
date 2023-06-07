@@ -1,16 +1,18 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   split.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: niromano <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/02 11:48:11 by niromano          #+#    #+#             */
-/*   Updated: 2023/06/02 11:48:12 by niromano         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "push_swap.h"
+
+void	init_part(t_info *part)
+{
+	int	i;
+
+	i = 0;
+	while (i < 8)
+	{
+		part->len[i] = 0;
+		i ++;
+	}
+	part->temp = 0;
+}
 
 int	average(t_list **a, int len)
 {
@@ -35,91 +37,61 @@ int	average(t_list **a, int len)
 	return (nb);
 }
 
-int	little_average(t_list **a, int len, int max_nb)
-{
-	t_list	*temp;
-	int		min;
-	int		max;
-	int		nb;
-
-	temp = *a;
-	min = temp->content;
-	max = temp->content;
-	while (len > 0)
-	{
-		if (min > temp->content && temp->content < max_nb)
-			min = temp->content;
-		if (max < temp->content && temp->content < max_nb)
-			max = temp->content;
-		temp = temp->next;
-		len --;
-	}
-	nb = (min + max) / 2;
-	return (nb);
-}
-
-int	check_ascending(t_list *a)
-{
-	int	len;
-
-	len = 1;
-	while (a != NULL)
-	{
-		if (a->next != NULL)
-		{
-			if (a->content > a->next->content)
-				return (len);
-		}
-		len ++;
-		a = a->next;
-	}
-	return (0);
-}
-
-void	first_part(t_list **a, t_list **b, int *len)
+void	first_part(t_list **a, t_list **b)
 {
 	unsigned int	total;
 	int				nb;
 
 	total = ft_lstsize(*a);
 	nb = average(a, total);
-	len[0] = 0;
-	len[1] = 0;
 	while (total-- > 0)
 	{
 		if ((*a)->content <= nb)
-		{
 			push_b(a, b);
-			len[1] ++;
-		}
 		else
-		{	
 			rotate_a(a);
-			len[0] ++;
-		}
 	}
 }
 
-void	second_part(t_list **a, t_list **b, int len, int *new_len)
+void	second_part(t_list **a, t_list **b, t_info *part)
 {
 	int	nb;
+	int	len;
 
-	new_len[0] = 0;
-	new_len[1] = 0;
+	init_part(part);
+	len = ft_lstsize(*b);
+	nb = average(b, len);
+	while (len > 0)
+	{
+		if ((*b)->content < nb)
+			rotate_b(b);
+		else
+		{
+			push_a(a, b);
+			part->temp ++;
+		}
+		len --;
+	}
+}
+
+void	third_part(t_list **a, t_list **b, t_info *part)
+{
+	int	len;
+	int	nb;
+
+	len = ft_lstsize(*b);
 	nb = average(b, len);
 	while (len > 0)
 	{
 		if ((*b)->content < nb)
 		{
 			rotate_b(b);
-			new_len[1] ++;
+			part->len[0] ++;
 		}
 		else
 		{
 			push_a(a, b);
-			if (ft_lstsize(*a) > 1 && (*a)->content > (*a)->next->content)
-				swap_a(a);
-			new_len[0] ++;
+			part->len[1] ++;
 		}
 		len --;
 	}
@@ -134,131 +106,179 @@ void	fill(t_list **a, t_list **b, int len)
 	}
 }
 
-void	third_part(t_list **a, t_list **b, int len, int *new_len)
+void	fourth_part(t_list **a, t_list **b, t_info *part)
 {
 	int	nb;
 
-	new_len[0] = 0;
-	new_len[1] = 0;
-	nb = average(a, len);
-	while (len > 0)
+	nb = average(a, part->temp);
+	while (part->temp > 0)
 	{
 		if ((*a)->content > nb)
 		{
 			push_b(a, b);
 			rotate_b(b);
-			new_len[1] ++;
+			part->len[3] ++;
 		}
 		else
 		{
 			push_b(a, b);
-			if (ft_lstsize(*b) > 1 && (*b)->content < (*b)->next->content)
-				swap_b(b);
-			new_len[0] ++;
+			part->len[2] ++;
 		}
-		len --;
+		part->temp --;
 	}
 }
 
-void	rot_switch(t_list **b, int len)
+int	under_average(t_list **a, int len, int nb)
 {
+	t_list	*temp;
+	int		min;
+	int		max;
+	int		under_nb;
+	int		trigger;
+
+	trigger = 0;
+	temp = *a;
+	while (trigger != 1)
+	{
+		if (temp->content < nb)
+		{
+			min = temp->content;
+			max = temp->content;
+			trigger = 1;
+		}
+		else
+		{
+			temp = temp->next;
+			len --;
+		}
+	}
 	while (len > 0)
 	{
-		rev_rotate_b(b);
+		if (temp->content < nb)
+		{
+			if (min > temp->content)
+				min = temp->content;
+			if (max < temp->content)
+				max = temp->content;
+		}
+		temp = temp->next;
+		len --;
+	}
+	under_nb = (min + max) / 2;
+	return (under_nb);
+}
+
+void	fifth_part(t_list ** a, t_list **b, t_info *part)
+{
+	int	len;
+	int	nb;
+	int	under_nb;
+
+	len = ft_lstsize(*a);
+	nb = average(a, len);
+	under_nb = under_average(a, len, nb);
+	while (len > 0)
+	{
+		if ((*a)->content < nb)
+		{
+			if ((*a)->content > under_nb)
+			{
+				push_b(a, b);
+				rotate_b(b);
+				part->len[5] ++;
+			}
+			else
+			{
+				push_b(a, b);
+				part->len[4] ++;
+			}
+		}
+		else
+			rotate_a(a);
 		len --;
 	}
 }
 
-void	fourth_part(t_list **a, t_list **b, int len, int *new_len)
+void	sixth_part(t_list **a, t_list **b, t_info *part)
 {
 	int	nb;
-	int	little_nb;
+	int	len;
 
-	new_len[0] = 0;
-	new_len[1] = 0;
+	len = ft_lstsize(*a);
 	nb = average(a, len);
-	little_nb = little_average(a, len, nb);
+
 	while (len > 0)
 	{
 		if ((*a)->content < nb)
 		{
 			push_b(a, b);
-			if ((*b)->content > little_nb)
-			{
-				rotate_b(b);
-				new_len[1] ++;
-			}
+			part->len[6] ++;
 		}
 		else
 		{
 			rotate_a(a);
-			new_len[0] ++;
+			part->len[7] ++;
 		}
 		len --;
 	}
 }
 
-void	final_part(t_list **a, t_list **b)
+void	search_value(t_list **b, int *next_value)
 {
-	int	len;
+	t_list	*temp;
+	int		len;
 
-	push_a(a, b);
-	while ((*b) != NULL)
+	temp = *b;
+	len = 0;
+	next_value[0] = temp->content;
+	next_value[1] = 0;
+	while (temp != NULL)
 	{
-		len = 0;
-		push_a(a, b);
-		while (ft_lstsize(*a) > 1 && (*a)->content > (*a)->next->content)
+		if (next_value[0] < temp->content)
 		{
-			swap_a(a);
-			if (ft_lstsize(*a) > 2 && (*a)->next->content > (*a)->next->next->content)
-				push_b(a, b);
-			len ++;
+			next_value[0] = temp->content;
+			next_value[1] = len;
 		}
-		while (len > 1)
-		{
-			push_a(a, b);
-			len --;
-		}
+		len ++;
+		temp = temp->next;
 	}
+	if (next_value[1] > (ft_lstsize(*b) / 2))
+		next_value[1] = -1;
 }
 
-void	tri(t_list **a, t_list **b, int len)
+void	wheel(t_list **a, t_list **b)
 {
-	while (len > 0)
+	int	value[2];
+
+	while (*b != NULL)
 	{
+		search_value(b, value);
+		while (value[1] >= 0 && (*b)->content != value[0])
+			rotate_b(b);
+		while (value[1] < 0 && (*b)->content != value[0])
+			rev_rotate_b(b);
 		push_a(a, b);
-		len --;
 	}
 }
 
 int	sorting(t_list **a, t_list **b)
 {
-	int	len[8][2];
+	t_info	part;
 
-	if (check_ascending(*a) == 0 && *b == NULL)
-	{
-		ft_lstclear(a);
-		ft_lstclear(b);
-		exit(EXIT_SUCCESS);
-	}
-	first_part(a, b, len[0]);
-	second_part(a, b, len[0][1], len[1]);
-	second_part(a, b, len[1][1], len[2]);
-	fill(a, b, len[2][0]);
-	third_part(a, b, len[1][0], len[3]);
-//	rot_switch(b, len[3][1]);
-	fourth_part(a, b, len[0][0], len[4]);
-//	rot_switch(b, len[4][1]);
-	third_part(a, b, len[4][0], len[5]);
-//	rot_switch(b, len[5][1]);
-
-	final_part(a, b);
-
+	first_part(a, b);
+	second_part(a, b, &part);
+	third_part(a, b, &part);
+	fill(a, b, part.len[1]);
+	fourth_part(a, b, &part);
+	fifth_part(a, b, &part);
+	sixth_part(a, b, &part);
+	fill(a, b, part.len[7]);
+	wheel(a, b);
 //	if (check_ascending(*a) == 0 && *b == NULL)
 //	{
 		ft_lstclear(a);
 		ft_lstclear(b);
 		exit(EXIT_SUCCESS);
 //	}
-	return (-1);
+    return (-1);
 }

@@ -21,6 +21,12 @@ t_list	*init_list(int argc, char *argv[]);
 int	check_ascending(t_list *a);
 int	sorting(t_list **a, t_list **b);
 
+typedef struct s_info
+{
+	int	len[8];
+	int	temp;
+}	t_info;
+
 //Rules
 
 void	swap_a(t_list **a);
