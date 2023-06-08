@@ -37,9 +37,12 @@ typedef struct s_utils
 
 typedef struct s_counter
 {
+	int	nb;
 	int	up;
 	int	dn;
 }	t_counter;
+
+t_counter	init_cnt(int nb);
 
 //Parts
 

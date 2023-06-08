@@ -51,7 +51,6 @@ int	medianes(t_list **a, int len)
 {
 	t_list	*temp;
 	t_list	*nb_temp;
-	int		nb;
 	t_counter	cnt;
 	int		temp_len;
 
@@ -60,24 +59,21 @@ int	medianes(t_list **a, int len)
 	while (nb_temp != NULL)
 	{
 		temp = *a;
-		nb = nb_temp->content;
-		cnt.up = 0;
-		cnt.dn = 0;
+		cnt = init_cnt(nb_temp->content);
 		len = temp_len;
-		while (temp != NULL && len > 0)
+		while (temp != NULL && len-- > 0)
 		{
-			if (temp->content < nb)
+			if (temp->content < cnt.nb)
 				cnt.dn ++;
 			else
 				cnt.up ++;
 			temp = temp->next;
-			len --;
 		}
 		if (cnt.up == cnt.dn || cnt.up == cnt.dn + 1 || cnt.up == cnt.dn - 1)
-			return(nb);
+			return(cnt.nb);
 		nb_temp = nb_temp->next;
 	}
-	return (nb);
+	return (cnt.nb);
 }
 
 int	under_average(t_list **a, int len, int nb)

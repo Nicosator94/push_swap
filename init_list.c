@@ -51,3 +51,14 @@ void	clear_matrix(char **matrix)
 	}
 	free(matrix);
 }
+
+t_counter	init_cnt(int nb)
+{
+	t_counter	cnt;
+
+	cnt.nb = nb;
+	cnt.up = 0;
+	cnt.dn = 0;
+
+	return (cnt);
+}
