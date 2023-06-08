@@ -6,7 +6,7 @@
 /*   By: niromano <niromano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 11:33:58 by niromano          #+#    #+#             */
-/*   Updated: 2023/06/08 17:16:09 by niromano         ###   ########.fr       */
+/*   Updated: 2023/06/08 17:42:37 by niromano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ int	main(int argc, char *argv[])
 		ft_lstclear(&a);
 		exit(EXIT_SUCCESS);
 	}
-//	if (lstsize(a) < 10);
+//	if (lstsize(a) < 8);
+//		mini_sorting(&a, &b);
 	sorting(&a, &b);
 	return (0);
 }
