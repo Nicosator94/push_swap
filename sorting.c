@@ -5,11 +5,7 @@ int	sorting(t_list **a, t_list **b)
 {
 	t_info	part;
 
-	if (check_ascending(*a) == 0 && *b == NULL)
-	{
-		ft_lstclear(a);
-		exit(EXIT_SUCCESS);
-	}
+	check_ascending(*a, *b);
 	first_part(a, b);
 	second_part(a, b, &part);
 	third_part(a, b, &part);
@@ -17,10 +13,6 @@ int	sorting(t_list **a, t_list **b)
 	fifth_part(a, b, &part);
 	sixth_part(a, b, &part);
 	wheel(a, b);
-	if (check_ascending(*a) == 0 && *b == NULL)
-	{
-		ft_lstclear(a);
-		exit(EXIT_SUCCESS);
-	}
+	check_ascending(*a, *b);
     return (-1);
 }

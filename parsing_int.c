@@ -82,22 +82,28 @@ static int	duplicate_check(int argc, char *argv[])
 	return (0);
 }
 
-void	parsing_int(int argc, char *argv[])
+void	parsing_int(int argc, char *argv[], int trigger)
 {
 	if (argc < 2)
 		exit(EXIT_FAILURE);
 	if (only_number(argc, argv) == 1)
 	{
+		if (trigger == 1)
+			clear_matrix(argv);
 		ft_putstr_fd("Error\n", 2);
 		exit(EXIT_FAILURE);
 	}
 	if (over_int(argc, argv) == 1)
 	{
+		if (trigger == 1)
+			clear_matrix(argv);
 		ft_putstr_fd("Error\n", 2);
 		exit(EXIT_FAILURE);
 	}
 	if (duplicate_check(argc, argv) == 1)
 	{
+		if (trigger == 1)
+			clear_matrix(argv);
 		ft_putstr_fd("Error\n", 2);
 		exit(EXIT_FAILURE);
 	}

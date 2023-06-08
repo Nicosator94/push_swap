@@ -5,7 +5,7 @@ void	fourth_part(t_list **a, t_list **b, t_info *part)
 {
 	int	nb;
 
-	nb = average(a, part->temp);
+	nb = medianes(a, part->temp);
 	while (part->temp > 0)
 	{
 		if ((*a)->content > nb)
@@ -30,7 +30,7 @@ void	fifth_part(t_list ** a, t_list **b, t_info *part)
 	int	under_nb;
 
 	len = ft_lstsize(*a);
-	nb = average(a, len);
+	nb = medianes(a, len);
 	under_nb = under_average(a, len, nb);
 	while (len-- > 0)
 	{
@@ -56,7 +56,7 @@ void	sixth_part(t_list **a, t_list **b, t_info *part)
 	int	len;
 
 	len = ft_lstsize(*a);
-	nb = average(a, len);
+	nb = medianes(a, len);
 
 	while (len > 0)
 	{

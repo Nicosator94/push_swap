@@ -7,7 +7,7 @@ void	first_part(t_list **a, t_list **b)
 	int				nb;
 
 	total = ft_lstsize(*a);
-	nb = average(a, total);
+	nb = medianes(a, total);
 	while (total-- > 0)
 	{
 		if ((*a)->content <= nb)
@@ -24,7 +24,7 @@ void	second_part(t_list **a, t_list **b, t_info *part)
 
 	init_part(part);
 	len = ft_lstsize(*b);
-	nb = average(b, len);
+	nb = medianes(b, len);
 	while (len > 0)
 	{
 		if ((*b)->content < nb)
@@ -44,7 +44,7 @@ void	third_part(t_list **a, t_list **b, t_info *part)
 	int	nb;
 
 	len = ft_lstsize(*b);
-	nb = average(b, len);
+	nb = medianes(b, len);
 	while (len > 0)
 	{
 		if ((*b)->content < nb)

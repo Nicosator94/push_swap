@@ -1,21 +1,28 @@
 
 #include "push_swap.h"
 
-int	check_ascending(t_list *a)
+void	check_ascending(t_list *a, t_list *b)
 {
-	int	len;
+	int		len;
+	t_list	*temp;
+
+	temp = a;
 	len = 1;
 	while (a != NULL)
 	{
 		if (a->next != NULL)
 		{
 			if (a->content > a->next->content)
-				return (len);
+				return ;
 		}
 		len ++;
 		a = a->next;
 	}
-	return (0);
+	if (b == NULL)
+	{
+		ft_lstclear(&temp);
+		exit(EXIT_SUCCESS);
+	}
 }
 
 void	init_part(t_info *part)
@@ -40,26 +47,36 @@ void	fill(t_list **a, t_list **b, int len)
 	}
 }
 
-int	average(t_list **a, int len)
+int	medianes(t_list **a, int len)
 {
 	t_list	*temp;
-	int		min;
-	int		max;
+	t_list	*nb_temp;
 	int		nb;
+	t_counter	cnt;
+	int		temp_len;
 
-	temp = *a;
-	min = temp->content;
-	max = temp->content;
-	while (len > 0)
+	nb_temp = *a;
+	temp_len = len;
+	while (nb_temp != NULL)
 	{
-		if (min > temp->content)
-			min = temp->content;
-		if (max < temp->content)
-			max = temp->content;
-		temp = temp->next;
-		len --;
+		temp = *a;
+		nb = nb_temp->content;
+		cnt.up = 0;
+		cnt.dn = 0;
+		len = temp_len;
+		while (temp != NULL && len > 0)
+		{
+			if (temp->content < nb)
+				cnt.dn ++;
+			else
+				cnt.up ++;
+			temp = temp->next;
+			len --;
+		}
+		if (cnt.up == cnt.dn || cnt.up == cnt.dn + 1 || cnt.up == cnt.dn - 1)
+			return(nb);
+		nb_temp = nb_temp->next;
 	}
-	nb = (min + max) / 2;
 	return (nb);
 }
 

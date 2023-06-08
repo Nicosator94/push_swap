@@ -16,15 +16,26 @@ int	main(int argc, char *argv[])
 {
 	t_list	*a;
 	t_list	*b;
+	int		trigger;
 
-	parsing_int(argc, argv);
+	trigger = 0;
+	if (argc == 2)
+	{
+		argv = ft_split(argv[1], ' ');
+		argc = counter(argv);
+		trigger = 1;
+	}
+	parsing_int(argc, argv, trigger);
 	a = init_list(argc, argv);
 	b = NULL;
+	if (trigger == 1)
+		clear_matrix(argv);
 	if (ft_lstsize(a) < 2)
 	{
 		ft_lstclear(&a);
 		exit(EXIT_SUCCESS);
 	}
+//	if (lstsize(a) < 10);
 	sorting(&a, &b);
 	return (0);
 }

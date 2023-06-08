@@ -15,10 +15,12 @@
 
 # include "libft/libft.h"
 
-void	parsing_int(int argc, char *argv[]);
+void	parsing_int(int argc, char *argv[], int trigger);
 long	long_atoi(const char *nptr);
 t_list	*init_list(int argc, char *argv[]);
 int		sorting(t_list **a, t_list **b);
+int		counter(char **new);
+void	clear_matrix(char **matrix);
 
 typedef struct s_info
 {
@@ -32,6 +34,12 @@ typedef struct s_utils
 	int	max;
 	int	trigger;
 }	t_utils;
+
+typedef struct s_counter
+{
+	int	up;
+	int	dn;
+}	t_counter;
 
 //Parts
 
@@ -49,10 +57,10 @@ void	wheel(t_list **a, t_list **b);
 
 // Utils
 
-int		check_ascending(t_list *a);
+void	check_ascending(t_list *a, t_list *b);
 void	init_part(t_info *part);
 void	fill(t_list **a, t_list **b, int len);
-int		average(t_list **a, int len);
+int		medianes(t_list **a, int len);
 int		under_average(t_list **a, int len, int nb);
 
 //Rules
