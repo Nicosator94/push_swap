@@ -10,6 +10,7 @@ SRC = push_swap.c \
 		rule_rotate.c \
 		rule_swap.c \
 		sorting.c \
+		mini_sorting.c \
 		sorting_utils.c \
 		part_1.c \
 		part_2.c \
