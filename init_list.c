@@ -6,20 +6,28 @@
 /*   By: niromano <niromano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 09:59:08 by niromano          #+#    #+#             */
-/*   Updated: 2023/06/08 17:15:46 by niromano         ###   ########.fr       */
+/*   Updated: 2023/06/11 21:18:46 by niromano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-t_list	*init_list(int argc, char *argv[])
+t_list	*init_list(int argc, char *argv[], int trigger)
 {
 	t_list	*list;
 	t_list	*new;
 	int		i;
 
-	i = 2;
-	list = ft_lstnew(ft_atoi(argv[1]));
+	if (trigger == 1)
+	{
+		i = 1;
+		list = ft_lstnew(ft_atoi(argv[0]));
+	}
+	else
+	{
+		i = 2;
+		list = ft_lstnew(ft_atoi(argv[1]));
+	}
 	while (i < argc)
 	{
 		new = ft_lstnew(ft_atoi(argv[i]));

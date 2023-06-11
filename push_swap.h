@@ -6,7 +6,7 @@
 /*   By: niromano <niromano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 11:34:02 by niromano          #+#    #+#             */
-/*   Updated: 2023/06/08 17:43:33 by niromano         ###   ########.fr       */
+/*   Updated: 2023/06/11 21:17:44 by niromano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 void	parsing_int(int argc, char *argv[], int trigger);
 long	long_atoi(const char *nptr);
-t_list	*init_list(int argc, char *argv[]);
+t_list	*init_list(int argc, char *argv[], int trigger);
 void	sorting(t_list **a, t_list **b);
 void	mini_sorting(t_list **a, t_list **b);
 int		counter(char **new);

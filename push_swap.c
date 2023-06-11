@@ -6,7 +6,7 @@
 /*   By: niromano <niromano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 11:33:58 by niromano          #+#    #+#             */
-/*   Updated: 2023/06/09 14:50:40 by niromano         ###   ########.fr       */
+/*   Updated: 2023/06/11 21:19:37 by niromano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	main(int argc, char *argv[])
 		trigger = 1;
 	}
 	parsing_int(argc, argv, trigger);
-	a = init_list(argc, argv);
+	a = init_list(argc, argv, trigger);
 	b = NULL;
 	if (trigger == 1)
 		clear_matrix(argv);
@@ -37,6 +37,6 @@ int	main(int argc, char *argv[])
 	}
 	if (ft_lstsize(a) < 7)
 		mini_sorting(&a, &b);
-	//sorting(&a, &b);
+	sorting(&a, &b);
 	return (0);
 }
